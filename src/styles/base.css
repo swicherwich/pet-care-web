@@ -1,0 +1,145 @@
+/* Скидання, типографіка (стилі тексту з ЛР3/ЛР4) і спільні правила доступності. */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--color-bg);
+  color: var(--color-text);
+  font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
+  font-size: 16px;
+  line-height: 24px;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  overflow-wrap: anywhere;
+}
+
+h1, h2, h3, h4, p, ul, ol, dl, dd, figure {
+  margin: 0;
+  padding: 0;
+}
+
+ul, ol {
+  list-style: none;
+}
+
+button, input, select, textarea {
+  font: inherit;
+  color: inherit;
+  letter-spacing: inherit;
+}
+
+button {
+  background: none;
+  border: 0;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  text-align: inherit;
+  -webkit-tap-highlight-color: transparent;
+}
+
+button:disabled,
+button[aria-disabled='true'] {
+  cursor: not-allowed;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+img, svg {
+  display: block;
+  max-width: 100%;
+}
+
+/* Стилі тексту */
+.t-display { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 30px; line-height: 36px; letter-spacing: -0.3px; }
+.t-h1 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 24px; line-height: 30px; letter-spacing: -0.12px; }
+.t-h3 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 17px; line-height: 22px; }
+.t-body { font-size: 16px; line-height: 24px; font-weight: 400; }
+.t-body-strong { font-size: 16px; line-height: 24px; font-weight: 600; }
+.t-small { font-size: 14px; line-height: 20px; font-weight: 400; }
+.t-small-strong { font-size: 14px; line-height: 20px; font-weight: 600; }
+.t-button { font-size: 16px; line-height: 20px; font-weight: 600; }
+.t-caption { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.12px; }
+
+.muted { color: var(--color-text-2); }
+
+/* Видимий фокус (WCAG 2.4.7): токен color/focus, 3:1 до фону. Кільце виносимо назовні з просвітом. */
+:focus-visible {
+  outline: 3px solid var(--color-focus);
+  outline-offset: 2px;
+  border-radius: inherit;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Елементи всередині контейнерів з overflow:hidden: кільце всередину, щоб не обрізалось */
+.focus-inset:focus-visible {
+  outline-offset: -3px;
+}
+
+.visually-hidden {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+  border: 0;
+}
+
+.skip-link {
+  position: absolute;
+  left: 16px;
+  top: -64px;
+  z-index: 100;
+  background: var(--color-surface);
+  color: var(--color-accent);
+  padding: 12px 16px;
+  border-radius: var(--radius-12);
+  border: 1px solid var(--color-border);
+  font-weight: 600;
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
+/* Режим «кадр»: для порівняння з макетом Figma (статус-бар iOS, індикатор «Home», без анімацій) */
+.statusbar,
+.home-indicator {
+  display: none;
+}
+
+html[data-frame] .statusbar {
+  display: flex;
+}
+
+html[data-frame] .home-indicator {
+  display: block;
+}
+
+html[data-frame] *,
+html[data-frame] *::before,
+html[data-frame] *::after {
+  animation: none !important;
+  transition: none !important;
+}

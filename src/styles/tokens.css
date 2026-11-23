@@ -1,0 +1,127 @@
+/*
+  Токени дизайн-системи. Значення перенесені з колекцій змінних Figma:
+  «Лр4 · Тема» (Light/Dark), «Лр4 · Відступи», «Лр4 · Сітка», «Лр5 · Рух».
+  Назви збігаються з тими, що повертає Figma Dev Mode (var(--color-text) тощо).
+*/
+:root {
+  /* Колір · Light */
+  --color-bg: #f4f7f6;
+  --color-surface: #ffffff;
+  --color-text: #14201b;
+  --color-text-2: #46524d;
+  --color-text-3: #5b6863;
+  --color-divider: #dce3e0;
+  --color-border: #7d8a85;
+  --color-accent: #137d63;
+  --color-accent-pressed: #0e6650;
+  --color-accent-soft: #e9f7f3;
+  --color-on-accent: #ffffff;
+  --color-danger: #b8223a;
+  --color-danger-soft: #fcebee;
+  --color-warn: #9c6007;
+  --color-warn-soft: #fff1db;
+  --color-info: #226dc2;
+  --color-info-soft: #e9f2fc;
+  --color-overlay: #0b1210;
+  --color-focus: #0b3d91;
+
+  /* Відступи та радіуси */
+  --space-4: 4px;
+  --space-8: 8px;
+  --space-12: 12px;
+  --space-16: 16px;
+  --space-20: 20px;
+  --space-24: 24px;
+  --space-32: 32px;
+  --space-40: 40px;
+  --space-48: 48px;
+  --space-64: 64px;
+  --radius-8: 8px;
+  --radius-12: 12px;
+  --radius-16: 16px;
+  --radius-full: 999px;
+
+  /* Сітка · Compact за замовчуванням */
+  --grid-columns: 4;
+  --grid-margin: 16px;
+  --grid-gutter: 16px;
+  --grid-content-width: 393px;
+
+  /* Рух · Standard */
+  --dur-instant: 100ms;
+  --dur-fast: 150ms;
+  --dur-base: 200ms;
+  --dur-moderate: 300ms;
+  --dur-slow: 400ms;
+  --stagger-step: 40ms;
+  --dist-xs: 4px;
+  --dist-sm: 8px;
+  --dist-md: 16px;
+  --dist-lg: 24px;
+  --scale-press: 0.96;
+  --scale-enter: 0.92;
+  --ease-enter: cubic-bezier(0, 0, 0.2, 1);
+  --ease-exit: cubic-bezier(0.4, 0, 1, 1);
+  --ease-standard: cubic-bezier(0.4, 0, 0.2, 1);
+
+  color-scheme: light;
+}
+
+/* Колір · Dark */
+:root[data-theme='dark'] {
+  --color-bg: #0f1513;
+  --color-surface: #18201d;
+  --color-text: #eaf1ee;
+  --color-text-2: #b6c4be;
+  --color-text-3: #98a8a1;
+  --color-divider: #2a3531;
+  --color-border: #7c8a84;
+  --color-accent: #4cc3a3;
+  --color-accent-pressed: #7adbc1;
+  --color-accent-soft: #16352d;
+  --color-on-accent: #06241b;
+  --color-danger: #ff8a99;
+  --color-danger-soft: #3a1c22;
+  --color-warn: #f2b45a;
+  --color-warn-soft: #3a2c12;
+  --color-info: #7db4f5;
+  --color-info-soft: #172a40;
+  --color-focus: #9ec1ff;
+  color-scheme: dark;
+}
+
+/* Сітка · Medium (планшет, ЛР4) */
+@media (min-width: 768px) {
+  :root {
+    --grid-columns: 8;
+    --grid-margin: 24px;
+    --grid-content-width: 736px;
+  }
+}
+
+/* Сітка · Expanded (десктоп, ЛР4) */
+@media (min-width: 1200px) {
+  :root {
+    --grid-columns: 12;
+    --grid-margin: 24px;
+    --grid-gutter: 24px;
+    --grid-content-width: 1200px;
+  }
+}
+
+/* Рух · Reduced: відстані зникають, тривалості скорочені (ЛР5, WCAG 2.3.3) */
+@media (prefers-reduced-motion: reduce) {
+  :root {
+    --dur-fast: 100ms;
+    --dur-base: 100ms;
+    --dur-moderate: 150ms;
+    --dur-slow: 150ms;
+    --stagger-step: 0ms;
+    --dist-xs: 0px;
+    --dist-sm: 0px;
+    --dist-md: 0px;
+    --dist-lg: 0px;
+    --scale-press: 1;
+    --scale-enter: 1;
+  }
+}

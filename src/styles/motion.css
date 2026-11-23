@@ -1,0 +1,91 @@
+/* Анімаційні сценарії S1-S9 (ЛР5). Значення беруться з токенів motion (tokens.css). */
+
+@keyframes spin { to { transform: rotate(360deg); } }
+@keyframes shimmer { from { background-position: 200% 0; } to { background-position: -200% 0; } }
+@keyframes fade-in { from { opacity: 0; } to { opacity: 1; } }
+@keyframes fade-out { from { opacity: 1; } to { opacity: 0; } }
+
+/* S1: каскадна поява блоків після скелетона */
+@keyframes reveal {
+  from { opacity: 0; transform: translateY(var(--dist-md)); }
+  to { opacity: 1; transform: none; }
+}
+.reveal {
+  animation: reveal var(--dur-moderate) var(--ease-enter) both;
+  animation-delay: calc(var(--i, 0) * var(--stagger-step));
+}
+
+/* S2: тост про результат дії */
+@keyframes toast-in {
+  from { opacity: 0; transform: translateY(var(--dist-md)) scale(var(--scale-enter)); }
+  to { opacity: 1; transform: none; }
+}
+.toast[data-leaving='true'] { animation: toast-out var(--dur-base) var(--ease-exit) both; }
+@keyframes toast-out { to { opacity: 0; transform: translateY(var(--dist-sm)); } }
+
+/* S6: нижня панель */
+@keyframes sheet-in { from { transform: translateY(var(--dist-lg)); opacity: 0; } to { transform: none; opacity: 1; } }
+@keyframes sheet-out { from { transform: none; opacity: 1; } to { transform: translateY(var(--dist-lg)); opacity: 0; } }
+
+/* S7: новий елемент у списку */
+@keyframes new-item {
+  from { opacity: 0; transform: translateY(calc(-1 * var(--dist-sm))); }
+  to { opacity: 1; transform: none; }
+}
+@keyframes highlight-fade {
+  from { box-shadow: inset 0 0 0 2px var(--color-accent); }
+  to { box-shadow: inset 0 0 0 2px transparent; }
+}
+
+/* S9: помилка валідації, коротке струшування поля */
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  20% { transform: translateX(calc(-1 * var(--dist-sm) * 0.75)); }
+  40% { transform: translateX(calc(var(--dist-sm) * 0.75)); }
+  60% { transform: translateX(calc(-1 * var(--dist-xs))); }
+  80% { transform: translateX(var(--dist-xs)); }
+}
+
+/* підказка біля поля */
+@keyframes hint-in { from { opacity: 0; transform: translateY(calc(-1 * var(--dist-xs))); } to { opacity: 1; transform: none; } }
+
+/* S8: зміна заголовка лічильника після відмітки події */
+@keyframes swap-in { from { opacity: 0; transform: translateY(var(--dist-xs)); } to { opacity: 1; transform: none; } }
+.swap { animation: swap-in var(--dur-base) var(--ease-enter) both; }
+
+/* S3 / S4: поява вмісту, що змінюється на місці (стан кнопки, банер, статус) */
+@keyframes content-in { from { opacity: 0; transform: translateY(var(--dist-sm)); } to { opacity: 1; transform: none; } }
+.content-in { animation: content-in var(--dur-moderate) var(--ease-enter) both; }
+.row-out { animation: row-out var(--dur-base) var(--ease-exit) both; }
+@keyframes row-out { to { opacity: 0; transform: translateX(var(--dist-md)); } }
+
+/* S5: перехід між екранами (View Transitions API) */
+::view-transition-old(root),
+::view-transition-new(root) { animation-duration: var(--dur-moderate); animation-fill-mode: both; }
+
+@keyframes vt-fade-out { to { opacity: 0; } }
+@keyframes vt-fade-in { from { opacity: 0; } }
+@keyframes vt-slide-in-right { from { opacity: 0; transform: translateX(var(--dist-lg)); } }
+@keyframes vt-slide-out-left { to { opacity: 0; transform: translateX(calc(-1 * var(--dist-md))); } }
+@keyframes vt-slide-in-left { from { opacity: 0; transform: translateX(calc(-1 * var(--dist-lg))); } }
+@keyframes vt-slide-out-right { to { opacity: 0; transform: translateX(var(--dist-md)); } }
+
+html[data-nav='tab']::view-transition-old(root) { animation: vt-fade-out var(--dur-base) var(--ease-exit) both; }
+html[data-nav='tab']::view-transition-new(root) { animation: vt-fade-in var(--dur-moderate) var(--ease-enter) both; }
+html[data-nav='push']::view-transition-old(root) { animation: vt-slide-out-left var(--dur-base) var(--ease-exit) both; }
+html[data-nav='push']::view-transition-new(root) { animation: vt-slide-in-right var(--dur-moderate) var(--ease-enter) both; }
+html[data-nav='back']::view-transition-old(root) { animation: vt-slide-out-right var(--dur-base) var(--ease-exit) both; }
+html[data-nav='back']::view-transition-new(root) { animation: vt-slide-in-left var(--dur-moderate) var(--ease-enter) both; }
+
+/* Запасний варіант без View Transitions: проста поява екрана */
+.route-fade { animation: fade-in var(--dur-moderate) var(--ease-enter) both; }
+
+/* Нижня навігація та боковий розділ залишаються на місці під час переходу */
+.nav { view-transition-name: app-nav; }
+::view-transition-group(app-nav) { animation-duration: 0s; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton { animation: none; }
+  .btn__spinner, .progress { animation-duration: 1.6s; }
+  .toggle__knob, .toggle__track { transition-duration: 1ms; }
+}
