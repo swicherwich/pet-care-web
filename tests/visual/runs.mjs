@@ -29,5 +29,10 @@ const n = Math.max(a.length, b.length);
 for (let i = 0; i < n; i++) {
   const ra = a[i] ? `${a[i][0]}-${a[i][1]}` : '-';
   const rb = b[i] ? `${b[i][0]}-${b[i][1]}` : '-';
-  console.log(String(i).padStart(2), ra.padEnd(12), rb.padEnd(12), a[i] && b[i] && (a[i][0] !== b[i][0] || a[i][1] !== b[i][1]) ? '<<' : '');
+  console.log(
+    String(i).padStart(2),
+    ra.padEnd(12),
+    rb.padEnd(12),
+    a[i] && b[i] && (a[i][0] !== b[i][0] || a[i][1] !== b[i][1]) ? '<<' : '',
+  );
 }

@@ -122,7 +122,10 @@ export function NewEventSheet({ open, onClose }: { open: boolean; onClose: () =>
               ))}
             </select>
           </div>
-          <Hint label="Підказка про нагадування" text="Для обробок від паразитів краще нагадувати за 7 днів, щоб встигнути купити препарат." />
+          <Hint
+            label="Підказка про нагадування"
+            text="Для обробок від паразитів краще нагадувати за 7 днів, щоб встигнути купити препарат."
+          />
         </div>
 
         <div className="sheet__actions">

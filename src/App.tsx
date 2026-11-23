@@ -42,7 +42,16 @@ function RouteEffects() {
 function Shell() {
   return (
     <div className="app">
-      <a className="skip-link" href="#main" onClick={(e) => { e.preventDefault(); const m = document.getElementById('main'); m?.setAttribute('tabindex', '-1'); m?.focus(); }}>
+      <a
+        className="skip-link"
+        href="#main"
+        onClick={(e) => {
+          e.preventDefault();
+          const m = document.getElementById('main');
+          m?.setAttribute('tabindex', '-1');
+          m?.focus();
+        }}
+      >
         Перейти до основного вмісту
       </a>
       <div className="app__main">

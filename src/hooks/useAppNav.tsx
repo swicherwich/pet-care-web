@@ -12,23 +12,23 @@ const prefersReducedMotion = () => window.matchMedia('(prefers-reduced-motion: r
 export function useAppNav() {
   const navigate = useNavigate();
 
-  const run = useCallback(
-    (action: () => void, kind: NavKind) => {
-      const doc = document as VTDocument;
-      const root = document.documentElement;
-      if (!doc.startViewTransition || prefersReducedMotion() || root.dataset.frame) {
-        action();
-        return;
-      }
-      root.dataset.nav = kind;
-      doc.startViewTransition(() => {
-        flushSync(action);
-      });
-    },
-    [],
-  );
+  const run = useCallback((action: () => void, kind: NavKind) => {
+    const doc = document as VTDocument;
+    const root = document.documentElement;
+    if (!doc.startViewTransition || prefersReducedMotion() || root.dataset.frame) {
+      action();
+      return;
+    }
+    root.dataset.nav = kind;
+    doc.startViewTransition(() => {
+      flushSync(action);
+    });
+  }, []);
 
-  const go = useCallback((to: string, kind: NavKind = 'push', state?: unknown) => run(() => navigate(to, { state }), kind), [run, navigate]);
+  const go = useCallback(
+    (to: string, kind: NavKind = 'push', state?: unknown) => run(() => navigate(to, { state }), kind),
+    [run, navigate],
+  );
 
   /** Назад по історії; якщо історії немає (прямий вхід за посиланням), іде на запасний маршрут */
   const back = useCallback(

@@ -34,7 +34,16 @@ export interface CareEvent {
 export const initialEvents: CareEvent[] = [
   { id: 'e1', title: 'Таблетка від глистів', petId: 'murka', group: 'overdue', status: 'overdue', when: 'Вчора' },
   { id: 'e2', title: 'Чистка вух', petId: 'barsyk', group: 'overdue', status: 'overdue', when: 'Вчора' },
-  { id: 'e3', title: 'Ранкове годування', petId: 'murka', group: 'today', status: 'done', when: '08:12', doneBy: 'Наталя', doneAt: '08:12' },
+  {
+    id: 'e3',
+    title: 'Ранкове годування',
+    petId: 'murka',
+    group: 'today',
+    status: 'done',
+    when: '08:12',
+    doneBy: 'Наталя',
+    doneAt: '08:12',
+  },
   { id: 'e4', title: 'Ліки від алергії', petId: 'rex', group: 'today', status: 'todo', when: '13:00' },
   { id: 'e5', title: 'Вечірнє годування', petId: 'barsyk', group: 'today', status: 'todo', when: '19:00' },
 ];
@@ -117,8 +126,20 @@ export interface Note {
 }
 
 export const notes: Note[] = [
-  { id: 'n1', text: 'Не любить таблетки, ховається під ліжко. Дати зі шматочком сиру.', meta: '10 жовтня · Наталя', tag: 'Здоров’я', tone: 'accent' },
-  { id: 'n2', text: 'Алергія на курку, корм лише з індичкою. Перевіряти склад ласощів.', meta: '2 вересня · Олег', tag: 'Харчування', tone: 'accent' },
+  {
+    id: 'n1',
+    text: 'Не любить таблетки, ховається під ліжко. Дати зі шматочком сиру.',
+    meta: '10 жовтня · Наталя',
+    tag: 'Здоров’я',
+    tone: 'accent',
+  },
+  {
+    id: 'n2',
+    text: 'Алергія на курку, корм лише з індичкою. Перевіряти склад ласощів.',
+    meta: '2 вересня · Олег',
+    tag: 'Харчування',
+    tone: 'accent',
+  },
 ];
 
 export const weightMonths = ['Чер', 'Лип', 'Сер', 'Вер', 'Жов'];

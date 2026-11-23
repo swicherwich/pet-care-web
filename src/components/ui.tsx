@@ -12,7 +12,17 @@ type ButtonProps = ComponentProps<'button'> & {
   loading?: boolean;
 };
 
-export function Button({ variant = 'primary', size = 'l', block, grow, loading, className = '', children, disabled, ...rest }: ButtonProps) {
+export function Button({
+  variant = 'primary',
+  size = 'l',
+  block,
+  grow,
+  loading,
+  className = '',
+  children,
+  disabled,
+  ...rest
+}: ButtonProps) {
   const cls = ['btn', `btn--${variant}`, `btn--${size}`, block && 'btn--block', grow && 'btn--grow', className].filter(Boolean).join(' ');
   return (
     <button type="button" className={cls} disabled={disabled || loading} aria-busy={loading || undefined} {...rest}>

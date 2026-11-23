@@ -4,7 +4,8 @@
 .app__main { display: flex; flex: 1 1 auto; flex-direction: column; min-width: 0; position: relative; }
 .app__main > .screen { flex: 1 1 auto; }
 
-.content { width: 100%; max-width: var(--grid-content-width); margin: 0 auto; }
+.content { width: 100%; max-width: min(var(--grid-content-width), 736px); margin: 0 auto; }
+.content.content--wide { max-width: var(--grid-content-width); }
 
 /* Двоколонкові блоки з'являються лише на Medium і вище */
 .cols { display: flex; flex-direction: column; gap: var(--space-24); }

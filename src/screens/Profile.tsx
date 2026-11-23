@@ -11,7 +11,15 @@ type Part = 'overview' | 'history' | 'notes';
 
 const upcomingInitial: CareEvent[] = [
   { id: 'u1', title: 'Глистогонне', petId: 'rex', group: 'today', status: 'todo', when: 'Завтра', meta: 'Завтра · 09:00' },
-  { id: 'u2', title: 'Крапля від бліх', petId: 'rex', group: 'today', status: 'todo', when: '25 жовтня', meta: '25 жовтня · раз на місяць' },
+  {
+    id: 'u2',
+    title: 'Крапля від бліх',
+    petId: 'rex',
+    group: 'today',
+    status: 'todo',
+    when: '25 жовтня',
+    meta: '25 жовтня · раз на місяць',
+  },
 ];
 
 const chartText = 'Діаграма вище показує вагу за п’ять місяців, від червня до жовтня: вона зросла на 0,3 кг за останні три місяці.';
@@ -32,7 +40,14 @@ function WeightCard() {
         <svg viewBox="0 0 329 128" preserveAspectRatio="none" fill="none" role="img" aria-labelledby="w-desc">
           <path d="M0 32H329M0 64H329M0 96H329" stroke="var(--color-divider)" />
           <path d="M8 104L88 92L168 72L248 74L321 44V128H8V104Z" fill="var(--color-accent-soft)" />
-          <path d="M8 104L88 92L168 72L248 74L321 44" stroke="var(--color-accent)" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+          <path
+            d="M8 104L88 92L168 72L248 74L321 44"
+            stroke="var(--color-accent)"
+            strokeWidth="2.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            vectorEffect="non-scaling-stroke"
+          />
         </svg>
       </div>
       <div className="weight-card__axis" aria-hidden="true">
@@ -61,7 +76,18 @@ export default function Profile() {
   };
 
   const toggle = (id: string) =>
-    setUpcoming((l) => l.map((e) => (e.id === id ? { ...e, status: e.status === 'done' ? 'todo' : 'done', doneBy: 'Олег', doneAt: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', hour12: false }) } : e)));
+    setUpcoming((l) =>
+      l.map((e) =>
+        e.id === id
+          ? {
+              ...e,
+              status: e.status === 'done' ? 'todo' : 'done',
+              doneBy: 'Олег',
+              doneAt: new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', hour12: false }),
+            }
+          : e,
+      ),
+    );
 
   return (
     <Screen>
@@ -104,9 +130,7 @@ export default function Profile() {
       </div>
 
       <WeightCard />
-      <p className="caption-text">
-        {chartText}
-      </p>
+      <p className="caption-text">{chartText}</p>
 
       <section className="section" aria-labelledby="h-upcoming">
         <SectionHeader id="h-upcoming" title="Найближчі події" />
@@ -118,7 +142,11 @@ export default function Profile() {
       </section>
 
       <section className="section" aria-labelledby="h-photos">
-        <SectionHeader id="h-photos" title="Фото" action={<MoreAction label="Усі 24 фото" text="Усі 24" onClick={() => outOfScope('Фотоальбом')} />} />
+        <SectionHeader
+          id="h-photos"
+          title="Фото"
+          action={<MoreAction label="Усі 24 фото" text="Усі 24" onClick={() => outOfScope('Фотоальбом')} />}
+        />
         <div className="photo-grid">
           {(['dog', 'home', 'cat'] as const).map((tone, i) => (
             <button key={tone} type="button" aria-label={`Фото ${i + 1} із 24`} onClick={() => outOfScope('Фотоальбом')}>

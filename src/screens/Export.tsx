@@ -66,7 +66,10 @@ export default function Export() {
     } catch (e) {
       if ((e as DOMException).name === 'AbortError') return;
     }
-    toast.show({ text: 'Системне меню «Поділитися» недоступне в цьому браузері. Збережіть файл і надішліть його вручну.', persistent: true });
+    toast.show({
+      text: 'Системне меню «Поділитися» недоступне в цьому браузері. Збережіть файл і надішліть його вручну.',
+      persistent: true,
+    });
   };
 
   const save = () => {
@@ -94,7 +97,9 @@ export default function Export() {
             <div className="setting-row" style={{ borderRadius: 16, border: '1px solid var(--color-divider)' }}>
               <div className="setting-row__text">
                 <span className="setting-row__title">{fileName}</span>
-                <span className="setting-row__meta">{words.length ? words.map((w, i) => (i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w)).join(', ') : 'Порожній звіт'}</span>
+                <span className="setting-row__meta">
+                  {words.length ? words.map((w, i) => (i === 0 ? w.charAt(0).toUpperCase() + w.slice(1) : w)).join(', ') : 'Порожній звіт'}
+                </span>
               </div>
             </div>
           </section>
@@ -121,7 +126,13 @@ export default function Export() {
             <SectionHeader id="g-inc" title="Що включити" tall={false} />
             <SettingsCard>
               {includeRows.map((r) => (
-                <SettingToggleRow key={r.key} title={r.title} meta={r.meta} checked={inc[r.key]} onChange={(v) => setInc((s) => ({ ...s, [r.key]: v }))} />
+                <SettingToggleRow
+                  key={r.key}
+                  title={r.title}
+                  meta={r.meta}
+                  checked={inc[r.key]}
+                  onChange={(v) => setInc((s) => ({ ...s, [r.key]: v }))}
+                />
               ))}
             </SettingsCard>
           </section>

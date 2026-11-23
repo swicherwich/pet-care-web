@@ -68,14 +68,24 @@ export default function Sharing() {
         <section className="stack-12" aria-labelledby="g-doer">
           <SectionHeader id="g-doer" title="Хто що зробив" tall={false} />
           <SettingsCard>
-            <SettingToggleRow title="Показувати ім’я виконавця" meta="Біля події видно, хто її виконав" checked={showDoer} onChange={setShowDoer} />
+            <SettingToggleRow
+              title="Показувати ім’я виконавця"
+              meta="Біля події видно, хто її виконав"
+              checked={showDoer}
+              onChange={setShowDoer}
+            />
           </SettingsCard>
         </section>
       )}
 
       {invited && <Banner title="Запрошення надіслано">Андрій побачить його в застосунку або за посиланням.</Banner>}
 
-      <Button ref={inviteBtn} variant={invited ? 'secondary' : 'primary'} block onClick={() => (invited ? outOfScope('Форма запрошення') : setInvited(true))}>
+      <Button
+        ref={inviteBtn}
+        variant={invited ? 'secondary' : 'primary'}
+        block
+        onClick={() => (invited ? outOfScope('Форма запрошення') : setInvited(true))}
+      >
         {invited ? 'Запросити ще когось' : 'Запросити учасника'}
       </Button>
     </Screen>

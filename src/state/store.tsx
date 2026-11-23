@@ -67,22 +67,38 @@ export function StoreProvider({ children, initialInvited = false }: { children: 
     [setEvents],
   );
 
-  const addEvent = useCallback((input: NewEventInput) => {
-    const id = `new-${Date.now()}`;
-    setEvents((list) => [
-      ...list,
-      { id, title: input.title, petId: input.petId, group: 'today', status: 'todo', when: input.time, isNew: true },
-    ]);
-    setTouched(true);
-    // Підсвітка нового рядка (S7) тримається недовго, потім знімається
-    window.setTimeout(() => setEvents((list) => list.map((x) => (x.id === id ? { ...x, isNew: false } : x))), 2200);
-    return id;
-  }, [setEvents]);
+  const addEvent = useCallback(
+    (input: NewEventInput) => {
+      const id = `new-${Date.now()}`;
+      setEvents((list) => [
+        ...list,
+        { id, title: input.title, petId: input.petId, group: 'today', status: 'todo', when: input.time, isNew: true },
+      ]);
+      setTouched(true);
+      // Підсвітка нового рядка (S7) тримається недовго, потім знімається
+      window.setTimeout(() => setEvents((list) => list.map((x) => (x.id === id ? { ...x, isNew: false } : x))), 2200);
+      return id;
+    },
+    [setEvents],
+  );
 
   const setNotify = useCallback((key: string, value: boolean) => setNotifyState((s) => ({ ...s, [key]: value })), []);
 
   const value = useMemo<Store>(
-    () => ({ events, touched, toggleEvent, addEvent, notify, setNotify, showDoer, setShowDoer, invited, setInvited, alertAnswer, setAlertAnswer }),
+    () => ({
+      events,
+      touched,
+      toggleEvent,
+      addEvent,
+      notify,
+      setNotify,
+      showDoer,
+      setShowDoer,
+      invited,
+      setInvited,
+      alertAnswer,
+      setAlertAnswer,
+    }),
     [events, touched, toggleEvent, addEvent, notify, setNotify, showDoer, invited, alertAnswer],
   );
   return <Ctx.Provider value={value}>{children}</Ctx.Provider>;

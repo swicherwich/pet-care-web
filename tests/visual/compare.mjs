@@ -37,7 +37,11 @@ const rows = [];
 try {
   for (const s of screens) {
     const ref = PNG.sync.read(readFileSync(`design/ref/${s.name}.png`));
-    const ctx = await browser.newContext({ viewport: { width: ref.width, height: ref.height }, deviceScaleFactor: 1, reducedMotion: 'reduce' });
+    const ctx = await browser.newContext({
+      viewport: { width: ref.width, height: ref.height },
+      deviceScaleFactor: 1,
+      reducedMotion: 'reduce',
+    });
     const page = await ctx.newPage();
     await page.goto(`${BASE}/?frame=device${s.path}`);
     await page.evaluate(() => document.fonts.ready);

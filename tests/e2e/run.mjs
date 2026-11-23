@@ -53,7 +53,11 @@ async function scenarios(browserName, browser) {
   check('S1: скелетон видно одразу після відкриття', (await page.locator('.skeleton').count()) > 0);
   await page.locator('.skeleton').first().waitFor({ state: 'detached', timeout: 4000 });
   await wait(100);
-  check('S1: після скелетона з’являються блоки з каскадом', (await page.locator('.reveal').count()) >= 5, `reveal=${await page.locator('.reveal').count()}`);
+  check(
+    'S1: після скелетона з’являються блоки з каскадом',
+    (await page.locator('.reveal').count()) >= 5,
+    `reveal=${await page.locator('.reveal').count()}`,
+  );
   await wait(600);
 
   // S8: відмітка події та лічильник
@@ -67,7 +71,11 @@ async function scenarios(browserName, browser) {
 
   // Фільтр улюбленців
   await page.getByRole('radio', { name: 'Барсик' }).click();
-  check('Фільтр: лишаються події Барсика', (await page.getByRole('checkbox').count()) === 2, `checkbox=${await page.getByRole('checkbox').count()}`);
+  check(
+    'Фільтр: лишаються події Барсика',
+    (await page.getByRole('checkbox').count()) === 2,
+    `checkbox=${await page.getByRole('checkbox').count()}`,
+  );
   await page.getByRole('radio', { name: 'Усі' }).click();
 
   // S6, S9, S2, S7: нова подія
@@ -100,13 +108,20 @@ async function scenarios(browserName, browser) {
   await dialog.waitFor({ state: 'visible' });
   await page.keyboard.press('Escape');
   await wait(500);
-  check('Escape закриває панель, фокус повертається на кнопку «+»', !(await dialog.isVisible()) && (await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))) === 'Додати подію');
+  check(
+    'Escape закриває панель, фокус повертається на кнопку «+»',
+    !(await dialog.isVisible()) && (await page.evaluate(() => document.activeElement?.getAttribute('aria-label'))) === 'Додати подію',
+  );
 
   // Навігація
   await page.getByRole('link', { name: 'Сповіщення' }).first().click();
   await page.getByRole('heading', { name: 'Сповіщення', level: 1 }).waitFor();
   check('Навігація: дзвоник відкриває «Сповіщення»', true);
-  check('Навігація: у «Сповіщення» активна вкладка «Ще»', (await page.getByRole('navigation', { name: 'Основна навігація' }).getByRole('link', { name: 'Ще' }).getAttribute('aria-current')) !== null);
+  check(
+    'Навігація: у «Сповіщення» активна вкладка «Ще»',
+    (await page.getByRole('navigation', { name: 'Основна навігація' }).getByRole('link', { name: 'Ще' }).getAttribute('aria-current')) !==
+      null,
+  );
   const sw = page.getByRole('switch', { name: 'Підсумок дня на пошту' });
   await sw.click();
   check('Перемикач «Підсумок на пошту» вмикається', (await sw.getAttribute('aria-checked')) === 'true');
@@ -131,8 +146,17 @@ async function scenarios(browserName, browser) {
   await wait(200);
   check('P3: проміжний стан «Створюю PDF…»', await page.getByRole('button', { name: 'Створюю PDF…' }).isVisible());
   await page.getByText('Файл готовий').waitFor({ state: 'visible', timeout: 4000 });
-  check('Експорт: банер «Файл готовий» з назвою улюбленця', await page.locator('.banner').getByText(/Історія Мурки/).isVisible());
-  const [download] = await Promise.all([page.waitForEvent('download', { timeout: 5000 }).catch(() => null), page.getByRole('button', { name: 'Зберегти на телефон' }).click()]);
+  check(
+    'Експорт: банер «Файл готовий» з назвою улюбленця',
+    await page
+      .locator('.banner')
+      .getByText(/Історія Мурки/)
+      .isVisible(),
+  );
+  const [download] = await Promise.all([
+    page.waitForEvent('download', { timeout: 5000 }).catch(() => null),
+    page.getByRole('button', { name: 'Зберегти на телефон' }).click(),
+  ]);
   check('Експорт: «Зберегти на телефон» завантажує PDF', !!download, download ? download.suggestedFilename() : '');
 
   // Вкладки, заглушка, профіль
@@ -144,14 +168,28 @@ async function scenarios(browserName, browser) {
   check('Вкладка «Улюбленці» відкриває профіль Рекса', true);
   await page.getByRole('button', { name: 'Нотатки', exact: true }).click();
   await wait(700);
-  check('Профіль: «Нотатки» прокручує до розділу', await page.evaluate(() => window.scrollY > 300), `scrollY=${await page.evaluate(() => window.scrollY)}`);
+  check(
+    'Профіль: «Нотатки» прокручує до розділу',
+    await page.evaluate(() => window.scrollY > 300),
+    `scrollY=${await page.evaluate(() => window.scrollY)}`,
+  );
   await page.getByRole('button', { name: 'Усі нотатки' }).click();
-  check('Розділи поза макетом пояснюють це тостом', await page.locator('.toast').getByText(/поза макетом/).isVisible());
+  check(
+    'Розділи поза макетом пояснюють це тостом',
+    await page
+      .locator('.toast')
+      .getByText(/поза макетом/)
+      .isVisible(),
+  );
 
   // Поради
   await page.goto(`${BASE}/#/tips`);
   await page.getByRole('searchbox', { name: 'Пошук' }).fill('кіт');
-  check('Поради: пошук відфільтровує картки', (await page.locator('.media-card').count()) < 6, `cards=${await page.locator('.media-card').count()}`);
+  check(
+    'Поради: пошук відфільтровує картки',
+    (await page.locator('.media-card').count()) < 6,
+    `cards=${await page.locator('.media-card').count()}`,
+  );
 
   // Прямий вхід без історії
   await page.goto(`${BASE}/#/export`);
@@ -193,7 +231,13 @@ async function keyboard(browserName, browser) {
       stops.push(info);
     }
     const bad = stops.filter((s) => !s.outline && !s.shadow && !s.within);
-    record(browserName, 'Клавіатура', `${name}: ${stops.length} зупинок, кожна має видимий фокус`, bad.length === 0, bad.map((b) => b.label).join(', '));
+    record(
+      browserName,
+      'Клавіатура',
+      `${name}: ${stops.length} зупинок, кожна має видимий фокус`,
+      bad.length === 0,
+      bad.map((b) => b.label).join(', '),
+    );
   }
   await ctx.close();
 }
@@ -210,15 +254,33 @@ async function responsive(browserName, browser) {
       await wait(1500);
       const m = await page.evaluate(() => {
         const nav = document.querySelector('.nav').getBoundingClientRect();
-        const wide = [...document.querySelectorAll('body *')].filter((e) => e.getBoundingClientRect().right > window.innerWidth + 1 && getComputedStyle(e).position !== 'fixed').length;
-        return { sw: document.documentElement.scrollWidth, iw: window.innerWidth, navLeft: nav.left, navTop: nav.top, navW: nav.width, navH: nav.height, wide };
+        const wide = [...document.querySelectorAll('body *')].filter(
+          (e) => e.getBoundingClientRect().right > window.innerWidth + 1 && getComputedStyle(e).position !== 'fixed',
+        ).length;
+        return {
+          sw: document.documentElement.scrollWidth,
+          iw: window.innerWidth,
+          navLeft: nav.left,
+          navTop: nav.top,
+          navW: nav.width,
+          navH: nav.height,
+          wide,
+        };
       });
       record(browserName, 'Адаптивність', `${w}px · ${name}: без горизонтального скролу`, m.sw <= m.iw, `scrollWidth=${m.sw}`);
       if (name === 'today') {
-        const layoutOk = w < 768 ? m.navH <= 90 && m.navW === w : w < 1200 ? m.navW === 84 && m.navLeft === 0 : m.navW === 240 && m.navLeft === 0;
-        record(browserName, 'Адаптивність', `${w}px: навігація має правильний режим (${w < 768 ? 'нижня панель' : w < 1200 ? 'рейка 84 px' : 'бічна панель 240 px'})`, layoutOk, JSON.stringify({ navW: m.navW, navH: m.navH }));
+        const layoutOk =
+          w < 768 ? m.navH <= 90 && m.navW === w : w < 1200 ? m.navW === 84 && m.navLeft === 0 : m.navW === 240 && m.navLeft === 0;
+        record(
+          browserName,
+          'Адаптивність',
+          `${w}px: навігація має правильний режим (${w < 768 ? 'нижня панель' : w < 1200 ? 'рейка 84 px' : 'бічна панель 240 px'})`,
+          layoutOk,
+          JSON.stringify({ navW: m.navW, navH: m.navH }),
+        );
       }
-      if (browserName === 'chromium' && ['today', 'profile', 'tips', 'export'].includes(name)) await page.screenshot({ path: `${OUT}/shots/${w}-${name}.png`, fullPage: false });
+      if (browserName === 'chromium' && ['today', 'profile', 'tips', 'export'].includes(name))
+        await page.screenshot({ path: `${OUT}/shots/${w}-${name}.png`, fullPage: false });
     }
     await ctx.close();
   }
@@ -234,7 +296,13 @@ async function a11y(browserName, browser) {
     await page.getByRole('heading', { level: 1 }).first().waitFor();
     await wait(200);
     const r = await new AxeBuilder({ page }).withTags(tags).analyze();
-    record(browserName, 'axe (WCAG 2.1 A/AA)', `${name}: порушень ${r.violations.length}`, r.violations.length === 0, r.violations.map((v) => `${v.id}(${v.impact}) x${v.nodes.length}`).join(', '));
+    record(
+      browserName,
+      'axe (WCAG 2.1 A/AA)',
+      `${name}: порушень ${r.violations.length}`,
+      r.violations.length === 0,
+      r.violations.map((v) => `${v.id}(${v.impact}) x${v.nodes.length}`).join(', '),
+    );
     // цілі натискання: розмір елемента або зона натискання, що сягає 44 px (перевіряємо через elementFromPoint)
     const small = await page.evaluate(() => {
       const sel = 'a[href], button, input:not([type=hidden]), select, textarea, [role=switch], [role=radio], [role=checkbox]';
@@ -265,7 +333,13 @@ async function a11y(browserName, browser) {
   await page.getByRole('dialog').waitFor();
   await wait(400);
   const r = await new AxeBuilder({ page }).withTags(tags).analyze();
-  record(browserName, 'axe (WCAG 2.1 A/AA)', `панель «Нова подія»: порушень ${r.violations.length}`, r.violations.length === 0, r.violations.map((v) => `${v.id}(${v.impact}) x${v.nodes.length}`).join(', '));
+  record(
+    browserName,
+    'axe (WCAG 2.1 A/AA)',
+    `панель «Нова подія»: порушень ${r.violations.length}`,
+    r.violations.length === 0,
+    r.violations.map((v) => `${v.id}(${v.impact}) x${v.nodes.length}`).join(', '),
+  );
   await ctx.close();
 }
 
@@ -293,8 +367,20 @@ async function textScale(browserName, browser) {
     iw: window.innerWidth,
     clipped: [...document.querySelectorAll('.setting-row, .btn, .chip, .badge')].filter((e) => e.scrollHeight > e.clientHeight + 1).length,
   }));
-  record(browserName, 'Текст 200%', `розмір шрифту реагує на налаштування браузера (було ${before}px, стало ${after.size}px)`, after.size >= before * 1.9, '');
-  record(browserName, 'Текст 200%', 'без горизонтального скролу та обрізання тексту при 200%', after.sw <= after.iw && after.clipped === 0, `scrollWidth=${after.sw}/${after.iw}, обрізано=${after.clipped}`);
+  record(
+    browserName,
+    'Текст 200%',
+    `розмір шрифту реагує на налаштування браузера (було ${before}px, стало ${after.size}px)`,
+    after.size >= before * 1.9,
+    '',
+  );
+  record(
+    browserName,
+    'Текст 200%',
+    'без горизонтального скролу та обрізання тексту при 200%',
+    after.sw <= after.iw && after.clipped === 0,
+    `scrollWidth=${after.sw}/${after.iw}, обрізано=${after.clipped}`,
+  );
   await ctx.close();
 }
 

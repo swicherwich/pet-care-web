@@ -48,14 +48,34 @@ export default function Tips() {
 
       {showArticles && (
         <section className="section" aria-labelledby="h-new">
-          <SectionHeader id="h-new" title="Нові статті" action={<MoreAction label="Усі нові статті" onClick={() => outOfScope('Список статей')} />} />
+          <SectionHeader
+            id="h-new"
+            title="Нові статті"
+            action={<MoreAction label="Усі нові статті" onClick={() => outOfScope('Список статей')} />}
+          />
           {shownArticles.map((a) =>
             a.variant === 'photo' ? (
-              <ArticlePhotoCard key={a.id} title={a.title} desc={a.desc!} tag={a.tag} read={a.read} tone={a.tone} onOpen={() => outOfScope('Стаття')} />
+              <ArticlePhotoCard
+                key={a.id}
+                title={a.title}
+                desc={a.desc!}
+                tag={a.tag}
+                read={a.read}
+                tone={a.tone}
+                onOpen={() => outOfScope('Стаття')}
+              />
             ) : a.variant === 'text' ? (
               <ArticleTextCard key={a.id} title={a.title} desc={a.desc!} tag={a.tag} read={a.read} onOpen={() => outOfScope('Стаття')} />
             ) : (
-              <ArticleSideCard key={a.id} title={a.title} tag={a.tag} read={a.read} tone={a.tone} tagTone="info" onOpen={() => outOfScope('Стаття')} />
+              <ArticleSideCard
+                key={a.id}
+                title={a.title}
+                tag={a.tag}
+                read={a.read}
+                tone={a.tone}
+                tagTone="info"
+                onOpen={() => outOfScope('Стаття')}
+              />
             ),
           )}
         </section>

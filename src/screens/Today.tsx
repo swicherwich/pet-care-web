@@ -12,7 +12,10 @@ import { NewEventSheet } from './NewEventSheet';
 
 let skeletonShown = false;
 
-const filterOptions: { value: 'all' | PetId; label: string }[] = [{ value: 'all', label: 'Усі' }, ...pets.map((p) => ({ value: p.id, label: p.name }))];
+const filterOptions: { value: 'all' | PetId; label: string }[] = [
+  { value: 'all', label: 'Усі' },
+  ...pets.map((p) => ({ value: p.id, label: p.name })),
+];
 
 function TodaySkeleton() {
   return (
@@ -81,7 +84,7 @@ export default function Today() {
   const todayTitle = touched ? `Виконано · ${doneCount} з ${today.length}` : `Сьогодні · ${today.length}`;
 
   return (
-    <Screen>
+    <Screen className="content--wide">
       <div {...rv(0, 'stack')}>
         <div className="header-row">
           <PageHeader title="Сьогодні" sub="Неділя, 18 жовтня" />
@@ -95,63 +98,84 @@ export default function Today() {
         <ChipGroup label="Фільтр за улюбленцем" options={filterOptions} value={pet} onChange={setPet} />
       </div>
 
-      {(pet === 'all' || pet === 'rex') && (
-        <div {...rv(1)}>
-          <AlertCard
-            title={alertAnswer ? 'Дякуємо за відповідь' : 'Потрібен препарат?'}
-            actions={
-              alertAnswer ? (
-                <Button variant="ghost" size="m" onClick={() => setAlertAnswer(null)}>
-                  Змінити відповідь
-                </Button>
-              ) : (
-                <>
-                  <Button variant="secondary" size="m" onClick={() => setAlertAnswer('have')}>
-                    Вже є
-                  </Button>
-                  <Button size="m" onClick={() => setAlertAnswer('buy')}>
-                    Треба купити
-                  </Button>
-                </>
-              )
-            }
-          >
-            {alertAnswer === 'have' && 'Позначили, що препарат від бліх для Рекса вже є.'}
-            {alertAnswer === 'buy' && 'Позначили, що препарат від бліх для Рекса треба купити.'}
-            {!alertAnswer && 'Обробка від бліх для Рекса через 7 днів. Препарат уже є?'}
-          </AlertCard>
+      <div className="cols cols--main">
+        <div className="cols__col">
+          {(pet === 'all' || pet === 'rex') && (
+            <div {...rv(1)}>
+              <AlertCard
+                title={alertAnswer ? 'Дякуємо за відповідь' : 'Потрібен препарат?'}
+                actions={
+                  alertAnswer ? (
+                    <Button variant="ghost" size="m" onClick={() => setAlertAnswer(null)}>
+                      Змінити відповідь
+                    </Button>
+                  ) : (
+                    <>
+                      <Button variant="secondary" size="m" onClick={() => setAlertAnswer('have')}>
+                        Вже є
+                      </Button>
+                      <Button size="m" onClick={() => setAlertAnswer('buy')}>
+                        Треба купити
+                      </Button>
+                    </>
+                  )
+                }
+              >
+                {alertAnswer === 'have' && 'Позначили, що препарат від бліх для Рекса вже є.'}
+                {alertAnswer === 'buy' && 'Позначили, що препарат від бліх для Рекса треба купити.'}
+                {!alertAnswer && 'Обробка від бліх для Рекса через 7 днів. Препарат уже є?'}
+              </AlertCard>
+            </div>
+          )}
+
+          {overdue.length > 0 && (
+            <section aria-labelledby="h-overdue" {...rv(2, 'section')}>
+              <SectionHeader id="h-overdue" title={`Прострочено · ${overdue.length}`} />
+              <EventList label="Прострочені події">{overdue.map(row)}</EventList>
+            </section>
+          )}
+
+          <section aria-labelledby="h-today" {...rv(3, 'section')}>
+            <SectionHeader
+              id="h-today"
+              title={
+                <span key={todayTitle} className={touched ? 'swap' : undefined}>
+                  {todayTitle}
+                </span>
+              }
+            />
+            {today.length > 0 ? (
+              <EventList label="Події на сьогодні">{today.map(row)}</EventList>
+            ) : (
+              <p className="empty card">На сьогодні подій немає</p>
+            )}
+          </section>
         </div>
-      )}
 
-      {overdue.length > 0 && (
-        <section aria-labelledby="h-overdue" {...rv(2, 'section')}>
-          <SectionHeader id="h-overdue" title={`Прострочено · ${overdue.length}`} />
-          <EventList label="Прострочені події">{overdue.map(row)}</EventList>
-        </section>
-      )}
+        <div className="cols__col">
+          <div {...rv(4, 'stats')}>
+            <StatTile label="Вага" value="28,4 кг" delta="+0,3 кг за місяць" />
+            <StatTile label="Вага" value="28,4 кг" delta="+0,3 кг за місяць" />
+          </div>
 
-      <section aria-labelledby="h-today" {...rv(3, 'section')}>
-        <SectionHeader id="h-today" title={<span key={todayTitle} className={touched ? 'swap' : undefined}>{todayTitle}</span>} />
-        {today.length > 0 ? <EventList label="Події на сьогодні">{today.map(row)}</EventList> : <p className="empty card">На сьогодні подій немає</p>}
-      </section>
-
-      <div {...rv(4, 'stats')}>
-        <StatTile label="Вага" value="28,4 кг" delta="+0,3 кг за місяць" />
-        <StatTile label="Вага" value="28,4 кг" delta="+0,3 кг за місяць" />
+          <section aria-labelledby="h-media" {...rv(5, 'section')}>
+            <SectionHeader id="h-media" title="Відео та поради" action={<MoreAction to="/tips" label="Усі відео та поради" />} />
+            <VideoRowCard
+              title="Як дати таблетку коту без стресу"
+              meta="Кіт · 2:40 · Ветеринарна клініка"
+              onOpen={() => outOfScope('Відео')}
+            />
+            <ArticleSideCard
+              title="Скільки корму потрібно цуценяті"
+              tag="Харчування"
+              read="3 хв"
+              metaMode="read"
+              tone="home"
+              onOpen={() => outOfScope('Стаття')}
+            />
+          </section>
+        </div>
       </div>
-
-      <section aria-labelledby="h-media" {...rv(5, 'section')}>
-        <SectionHeader id="h-media" title="Відео та поради" action={<MoreAction to="/tips" label="Усі відео та поради" />} />
-        <VideoRowCard title="Як дати таблетку коту без стресу" meta="Кіт · 2:40 · Ветеринарна клініка" onOpen={() => outOfScope('Відео')} />
-        <ArticleSideCard
-          title="Скільки корму потрібно цуценяті"
-          tag="Харчування"
-          read="3 хв"
-          metaMode="read"
-          tone="home"
-          onOpen={() => outOfScope('Стаття')}
-        />
-      </section>
 
       <NewEventSheet open={sheetOpen} onClose={() => setSheetOpen(false)} />
 

@@ -4,15 +4,7 @@ import { Badge, Photo } from './ui';
 import { eventMeta, type CareEvent } from '../data/mock';
 
 /* ---------- Рядок події ---------- */
-export function EventRow({
-  event,
-  onToggle,
-  onOpen,
-}: {
-  event: CareEvent;
-  onToggle: () => void;
-  onOpen: () => void;
-}) {
+export function EventRow({ event, onToggle, onOpen }: { event: CareEvent; onToggle: () => void; onOpen: () => void }) {
   const id = useId();
   const done = event.status === 'done';
   return (
@@ -150,13 +142,7 @@ export function ArticlePhotoCard({
   );
 }
 
-export function ArticleTextCard({
-  title,
-  desc,
-  tag,
-  read,
-  onOpen,
-}: MediaProps & { desc: string; tag: string; read: string }) {
+export function ArticleTextCard({ title, desc, tag, read, onOpen }: MediaProps & { desc: string; tag: string; read: string }) {
   return (
     <button type="button" className="media-card media-card--col" onClick={onOpen}>
       <span className="media-card__text media-card__text--pad">
@@ -181,7 +167,13 @@ export function ArticleSideCard({
   tagTone = 'accent',
   onOpen,
   metaMode = 'tag',
-}: MediaProps & { tag: string; read: string; tone: 'dog' | 'cat' | 'home'; tagTone?: 'accent' | 'warn' | 'info'; metaMode?: 'tag' | 'read' }) {
+}: MediaProps & {
+  tag: string;
+  read: string;
+  tone: 'dog' | 'cat' | 'home';
+  tagTone?: 'accent' | 'warn' | 'info';
+  metaMode?: 'tag' | 'read';
+}) {
   return (
     <button type="button" className="media-card media-card--row media-card--row-start" onClick={onOpen}>
       <Photo tone={tone} className="photo--104" />
@@ -218,7 +210,15 @@ export function SearchField({
       </label>
       <div className="search-field">
         <SearchIcon aria-hidden="true" />
-        <input id={id} type="search" inputMode="search" autoComplete="off" placeholder={placeholder} value={value} onChange={(e) => onChange(e.target.value)} />
+        <input
+          id={id}
+          type="search"
+          inputMode="search"
+          autoComplete="off"
+          placeholder={placeholder}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+        />
       </div>
     </div>
   );
