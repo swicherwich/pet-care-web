@@ -384,6 +384,66 @@ async function textScale(browserName, browser) {
   await ctx.close();
 }
 
+
+async function extra(browserName, browser) {
+  // 1.3.4 Орієнтація: альбомний режим не блокується
+  {
+    const ctx = await browser.newContext({ viewport: { width: 852, height: 393 } });
+    const page = await ctx.newPage();
+    await page.goto(`${BASE}/?frame=none#/more`);
+    await page.getByRole('heading', { level: 1 }).first().waitFor();
+    const m = await page.evaluate(() => ({ sw: document.documentElement.scrollWidth, iw: innerWidth, nav: !!document.querySelector('.nav') }));
+    record(browserName, 'Орієнтація (1.3.4)', 'альбомний режим 852x393: вміст доступний без горизонтального скролу', m.sw <= m.iw && m.nav, JSON.stringify(m));
+    await ctx.close();
+  }
+  // 1.4.10 / 1.4.4: вузька ширина, що відповідає збільшенню приблизно вдвічі (196 px)
+  {
+    const ctx = await browser.newContext({ viewport: { width: 196, height: 700 } });
+    const page = await ctx.newPage();
+    for (const [name, hash] of routes) {
+      await page.goto('about:blank');
+      await page.goto(`${BASE}/?frame=none${hash}`);
+      await page.getByRole('heading', { level: 1 }).first().waitFor({ timeout: 5000 });
+      await wait(1500);
+      const m = await page.evaluate(() => {
+        const out = [...document.querySelectorAll('main *, .nav *')].filter((e) => { const r = e.getBoundingClientRect(); return r.width > 0 && r.right > innerWidth + 1; }).map((e) => e.className || e.tagName);
+        return { sw: document.documentElement.scrollWidth, iw: innerWidth, out: out.slice(0, 3) };
+      });
+      record(browserName, 'Масштаб 200% (196 px)', `${name}: без горизонтального скролу`, m.sw <= m.iw, `scrollWidth=${m.sw}, ${m.out.join(',')}`);
+    }
+    await ctx.close();
+  }
+  // 1.4.12 Інтервали тексту
+  {
+    const ctx = await browser.newContext({ viewport: { width: 393, height: 852 } });
+    const page = await ctx.newPage();
+    for (const [name, hash] of routes) {
+      await page.goto('about:blank');
+      await page.goto(`${BASE}/?frame=device${hash}`);
+      await page.getByRole('heading', { level: 1 }).first().waitFor();
+      await page.addStyleTag({ content: '* { line-height: 1.5 !important; letter-spacing: 0.12em !important; word-spacing: 0.16em !important; } p { margin-bottom: 2em !important; }' });
+      await wait(150);
+      const m = await page.evaluate(() => {
+        const clipped = [...document.querySelectorAll('main *')].filter((e) => {
+          const cs = getComputedStyle(e);
+          return (cs.overflow === 'hidden' || cs.overflowY === 'hidden') && e.scrollHeight > e.clientHeight + 2 && e.textContent.trim().length > 0 && !e.classList.contains('visually-hidden') && !e.classList.contains('photo') && !e.classList.contains('video-thumb') && !e.classList.contains('weight-card__plot') && !e.classList.contains('search-group');
+        }).map((e) => e.className);
+        return { sw: document.documentElement.scrollWidth, iw: innerWidth, clipped };
+      });
+      record(browserName, 'Інтервали тексту (1.4.12)', `${name}: текст не обрізається, горизонтального скролу немає`, m.sw <= m.iw && m.clipped.length === 0, JSON.stringify(m));
+    }
+    await ctx.close();
+  }
+  // 3.1.1 мова
+  {
+    const ctx = await browser.newContext();
+    const page = await ctx.newPage();
+    await page.goto(`${BASE}/#/`);
+    record(browserName, 'Мова (3.1.1)', 'атрибут lang="uk" на кореневому елементі', (await page.getAttribute('html', 'lang')) === 'uk');
+    await ctx.close();
+  }
+}
+
 const engines = { chromium, firefox, webkit };
 for (const [name, type] of Object.entries(engines)) {
   if (only && only !== name) continue;
@@ -395,6 +455,7 @@ for (const [name, type] of Object.entries(engines)) {
     await responsive(name, browser);
     await motion(name, browser);
     await textScale(name, browser);
+    await extra(name, browser);
     if (name === 'chromium') await a11y(name, browser);
   } catch (e) {
     record(name, 'Збій прогону', e.message.split('\n').slice(0, 3).join(' '), false);
