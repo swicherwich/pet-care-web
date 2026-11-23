@@ -67,7 +67,7 @@ export default function Profile() {
     <Screen>
       <div className="topbar">
         <BackLink label="Улюбленці" fallback="/" />
-        <AppLink to="/export" className="text-action text-action--16">
+        <AppLink to="/export" state={{ backLabel: 'Улюбленці', backTo: '/pets' }} className="text-action text-action--16">
           <DownloadIcon width={20} height={20} aria-hidden="true" />
           <span>Експорт</span>
         </AppLink>
@@ -118,7 +118,7 @@ export default function Profile() {
       </section>
 
       <section className="section" aria-labelledby="h-photos">
-        <SectionHeader id="h-photos" title="Фото" action={<MoreAction label="Усі фото, 24" text="Усі 24" onClick={() => outOfScope('Фотоальбом')} />} />
+        <SectionHeader id="h-photos" title="Фото" action={<MoreAction label="Усі 24 фото" text="Усі 24" onClick={() => outOfScope('Фотоальбом')} />} />
         <div className="photo-grid">
           {(['dog', 'home', 'cat'] as const).map((tone, i) => (
             <button key={tone} type="button" aria-label={`Фото ${i + 1} із 24`} onClick={() => outOfScope('Фотоальбом')}>

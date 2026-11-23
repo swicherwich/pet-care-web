@@ -37,6 +37,9 @@ export default function Export() {
   const readyRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => () => window.clearTimeout(timer.current), []);
+  useEffect(() => {
+    if (params.get('state') === 'ready') setStep('ready');
+  }, [params]);
 
   const words = useMemo(() => includeRows.filter((r) => inc[r.key]).map((r) => r.word), [inc]);
   const summary = words.length ? words.join(', ') : 'без розділів';

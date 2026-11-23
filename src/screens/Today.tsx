@@ -85,7 +85,7 @@ export default function Today() {
       <div {...rv(0, 'stack')}>
         <div className="header-row">
           <PageHeader title="Сьогодні" sub="Неділя, 18 жовтня" />
-          <AppLink to="/notifications" className="icon-btn" aria-label="Сповіщення">
+          <AppLink to="/notifications" state={{ backLabel: 'Сьогодні', backTo: '/' }} className="icon-btn" aria-label="Сповіщення">
             <BellIcon aria-hidden="true" />
           </AppLink>
           <button type="button" className="icon-btn icon-btn--solid" aria-label="Додати подію" onClick={() => setSheetOpen(true)}>

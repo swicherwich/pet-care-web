@@ -34,7 +34,7 @@
 @media (min-width: 1200px) {
   :root { --nav-width: 240px; }
   .nav { align-items: stretch; padding: var(--space-24) var(--space-16); }
-  .nav__item { flex-direction: row; align-items: center; gap: var(--space-12); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-4); font-size: 16px; line-height: 24px; font-weight: 600; letter-spacing: 0; min-height: 44px; }
+  .nav__item { flex-direction: row; align-items: center; gap: var(--space-12); padding: var(--space-4) var(--space-8) var(--space-4) var(--space-4); font-size: 1rem; line-height: 1.5rem; font-weight: 600; letter-spacing: 0; min-height: 44px; }
   .nav__item[aria-current] { background: var(--color-accent-soft); }
   .nav__item[aria-current] .nav__pill { background: transparent; }
   @media (hover: hover) { .nav__item:hover:not([aria-current]) { background: var(--color-accent-soft); } .nav__item:hover:not([aria-current]) .nav__pill { background: transparent; } }
@@ -47,5 +47,5 @@
 @media (max-width: 359px) {
   .stats { flex-direction: column; }
   .alert-card__actions { flex-direction: column; }
-  .page-header__title { font-size: 26px; line-height: 32px; }
+  .page-header__title { font-size: 1.625rem; line-height: 2rem; }
 }

@@ -1,5 +1,6 @@
 import { useId, useRef, useState, type ComponentProps, type KeyboardEvent, type ReactNode } from 'react';
 import { ChevronLeftIcon, ChevronRightSmIcon, PawIcon } from './icons';
+import { useLocation } from 'react-router-dom';
 import { AppLink, useAppNav } from '../hooks/useAppNav';
 
 /* ---------- Кнопка ---------- */
@@ -219,12 +220,21 @@ export function MoreAction({ to, onClick, label, text = 'Усі' }: { to?: strin
   );
 }
 
+/** Стан, який передає посилання, щоб «Назад» називався за екраном, з якого прийшов користувач */
+export interface BackState {
+  backLabel: string;
+  backTo: string;
+}
+
 export function BackLink({ label, fallback }: { label: string; fallback: string }) {
   const { back } = useAppNav();
+  const st = useLocation().state as Partial<BackState> | null;
+  const text = st?.backLabel ?? label;
+  const target = st?.backTo ?? fallback;
   return (
-    <button type="button" className="text-action text-action--16" onClick={() => back(fallback)} aria-label={`Назад: ${label}`}>
+    <button type="button" className="text-action text-action--16" onClick={() => back(target)} aria-label={`Назад: ${text}`}>
       <ChevronLeftIcon width={24} height={24} />
-      <span>{label}</span>
+      <span>{text}</span>
     </button>
   );
 }

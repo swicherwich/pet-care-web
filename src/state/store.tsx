@@ -1,4 +1,4 @@
-import { createContext, useCallback, useContext, useMemo, useState, type ReactNode } from 'react';
+import { createContext, useCallback, useContext, useMemo, useRef, useState, type ReactNode } from 'react';
 import { initialEvents, type CareEvent, type PetId } from '../data/mock';
 
 const nowHHMM = () => new Date().toLocaleTimeString('uk-UA', { hour: '2-digit', minute: '2-digit', hour12: false });
@@ -39,7 +39,13 @@ const defaultNotify: Record<string, boolean> = {
 };
 
 export function StoreProvider({ children, initialInvited = false }: { children: ReactNode; initialInvited?: boolean }) {
-  const [events, setEvents] = useState<CareEvent[]>(initialEvents);
+  const [events, setEventsState] = useState<CareEvent[]>(initialEvents);
+  // Актуальний список події читаємо синхронно: дія «Скасувати» в тості викликається вже після оновлення стану
+  const eventsRef = useRef(events);
+  const setEvents = useCallback((next: CareEvent[] | ((l: CareEvent[]) => CareEvent[])) => {
+    eventsRef.current = typeof next === 'function' ? next(eventsRef.current) : next;
+    setEventsState(eventsRef.current);
+  }, []);
   const [touched, setTouched] = useState(false);
   const [notify, setNotifyState] = useState(defaultNotify);
   const [showDoer, setShowDoer] = useState(true);
@@ -48,7 +54,7 @@ export function StoreProvider({ children, initialInvited = false }: { children: 
 
   const toggleEvent = useCallback(
     (id: string) => {
-      const e = events.find((x) => x.id === id);
+      const e = eventsRef.current.find((x) => x.id === id);
       if (!e) return undefined;
       const changed: CareEvent =
         e.status === 'done'
@@ -58,7 +64,7 @@ export function StoreProvider({ children, initialInvited = false }: { children: 
       setTouched(true);
       return changed;
     },
-    [events],
+    [setEvents],
   );
 
   const addEvent = useCallback((input: NewEventInput) => {
@@ -71,7 +77,7 @@ export function StoreProvider({ children, initialInvited = false }: { children: 
     // Підсвітка нового рядка (S7) тримається недовго, потім знімається
     window.setTimeout(() => setEvents((list) => list.map((x) => (x.id === id ? { ...x, isNew: false } : x))), 2200);
     return id;
-  }, []);
+  }, [setEvents]);
 
   const setNotify = useCallback((key: string, value: boolean) => setNotifyState((s) => ({ ...s, [key]: value })), []);
 

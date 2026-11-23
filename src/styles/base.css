@@ -15,8 +15,8 @@ body {
   background: var(--color-bg);
   color: var(--color-text);
   font-family: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, sans-serif;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -65,15 +65,15 @@ img, svg {
 }
 
 /* Стилі тексту */
-.t-display { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 30px; line-height: 36px; letter-spacing: -0.3px; }
-.t-h1 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 24px; line-height: 30px; letter-spacing: -0.12px; }
-.t-h3 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 17px; line-height: 22px; }
-.t-body { font-size: 16px; line-height: 24px; font-weight: 400; }
-.t-body-strong { font-size: 16px; line-height: 24px; font-weight: 600; }
-.t-small { font-size: 14px; line-height: 20px; font-weight: 400; }
-.t-small-strong { font-size: 14px; line-height: 20px; font-weight: 600; }
-.t-button { font-size: 16px; line-height: 20px; font-weight: 600; }
-.t-caption { font-size: 12px; line-height: 16px; font-weight: 500; letter-spacing: 0.12px; }
+.t-display { font-family: 'Nunito', sans-serif; font-weight: 800; font-size: 1.875rem; line-height: 2.25rem; letter-spacing: -0.01em; }
+.t-h1 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.5rem; line-height: 1.875rem; letter-spacing: -0.005em; }
+.t-h3 { font-family: 'Nunito', sans-serif; font-weight: 700; font-size: 1.0625rem; line-height: 1.375rem; }
+.t-body { font-size: 1rem; line-height: 1.5rem; font-weight: 400; }
+.t-body-strong { font-size: 1rem; line-height: 1.5rem; font-weight: 600; }
+.t-small { font-size: 0.875rem; line-height: 1.25rem; font-weight: 400; }
+.t-small-strong { font-size: 0.875rem; line-height: 1.25rem; font-weight: 600; }
+.t-button { font-size: 1rem; line-height: 1.25rem; font-weight: 600; }
+.t-caption { font-size: 0.75rem; line-height: 1rem; font-weight: 500; letter-spacing: 0.01em; }
 
 .muted { color: var(--color-text-2); }
 

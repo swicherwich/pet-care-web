@@ -30,7 +30,7 @@ export function EventRow({
           {event.status === 'overdue' ? <AlertIcon /> : <CheckIcon />}
         </span>
       </button>
-      <button type="button" className="event-row__body" onClick={onOpen} aria-label={`Відкрити: ${event.title}`}>
+      <button type="button" className="event-row__body" onClick={onOpen}>
         <span className="event-row__text">
           <span className="event-row__title" id={`${id}-t`}>
             {event.title}
@@ -45,17 +45,11 @@ export function EventRow({
   );
 }
 
-/** Список рядків із розділювачами 1 px між ними */
-export function EventList({ children, label }: { children: ReactNode[]; label: string }) {
-  const items = children.filter(Boolean);
+/** Список рядків; розділювачі між ними малює CSS (`.card > li + li`) */
+export function EventList({ children, label }: { children: ReactNode; label: string }) {
   return (
     <ul className="card" aria-label={label} style={{ listStyle: 'none', margin: 0, padding: 0 }}>
-      {items.map((c, i) => (
-        <div key={i} style={{ display: 'contents' }}>
-          {i > 0 && <li className="divider" role="presentation" aria-hidden="true" />}
-          {c}
-        </div>
-      ))}
+      {children}
     </ul>
   );
 }
@@ -96,7 +90,7 @@ interface MediaProps {
 
 export function VideoRowCard({ title, meta, onOpen }: MediaProps & { meta: string }) {
   return (
-    <button type="button" className="media-card media-card--row" onClick={onOpen} aria-label={`Відео: ${title}. ${meta}`}>
+    <button type="button" className="media-card media-card--row" onClick={onOpen}>
       <span className="video-thumb video-thumb--small" aria-hidden="true">
         <span className="video-thumb__scrim" />
         <span className="video-thumb__play">
@@ -104,6 +98,7 @@ export function VideoRowCard({ title, meta, onOpen }: MediaProps & { meta: strin
         </span>
       </span>
       <span className="media-card__text">
+        <span className="visually-hidden">Відео: </span>
         <span className="media-card__title">{title}</span>
         <span className="media-card__meta">{meta}</span>
       </span>
@@ -113,7 +108,7 @@ export function VideoRowCard({ title, meta, onOpen }: MediaProps & { meta: strin
 
 export function VideoWideCard({ title, meta, duration, onOpen }: MediaProps & { meta: string; duration: string }) {
   return (
-    <button type="button" className="media-card media-card--col" onClick={onOpen} aria-label={`Відео: ${title}. ${meta}, тривалість ${duration}`}>
+    <button type="button" className="media-card media-card--col" onClick={onOpen}>
       <span className="video-thumb video-thumb--wide" aria-hidden="true">
         <span className="video-thumb__scrim" />
         <span className="video-thumb__play">
@@ -122,6 +117,7 @@ export function VideoWideCard({ title, meta, duration, onOpen }: MediaProps & { 
         <span className="video-thumb__duration">{duration}</span>
       </span>
       <span className="media-card__text media-card__text--pad media-card__text--tight">
+        <span className="visually-hidden">Відео: </span>
         <span className="media-card__title t-h3-inline">{title}</span>
         <span className="media-card__desc">{meta}</span>
       </span>
@@ -138,9 +134,10 @@ export function ArticlePhotoCard({
   onOpen,
 }: MediaProps & { desc: string; tag: string; read: string; tone: 'dog' | 'cat' | 'home' }) {
   return (
-    <button type="button" className="media-card media-card--col" onClick={onOpen} aria-label={`Стаття: ${title}. ${tag}, ${read}`}>
+    <button type="button" className="media-card media-card--col" onClick={onOpen}>
       <Photo tone={tone} className="photo--fill" />
       <span className="media-card__text media-card__text--pad">
+        <span className="visually-hidden">Стаття: </span>
         <Badge>{tag}</Badge>
         <span className="media-card__title media-card__title--h3">{title}</span>
         <span className="media-card__desc">{desc}</span>
@@ -161,8 +158,9 @@ export function ArticleTextCard({
   onOpen,
 }: MediaProps & { desc: string; tag: string; read: string }) {
   return (
-    <button type="button" className="media-card media-card--col" onClick={onOpen} aria-label={`Стаття: ${title}. ${tag}, ${read}`}>
+    <button type="button" className="media-card media-card--col" onClick={onOpen}>
       <span className="media-card__text media-card__text--pad">
+        <span className="visually-hidden">Стаття: </span>
         <Badge>{tag}</Badge>
         <span className="media-card__title media-card__title--h3">{title}</span>
         <span className="media-card__desc">{desc}</span>
@@ -185,9 +183,10 @@ export function ArticleSideCard({
   metaMode = 'tag',
 }: MediaProps & { tag: string; read: string; tone: 'dog' | 'cat' | 'home'; tagTone?: 'accent' | 'warn' | 'info'; metaMode?: 'tag' | 'read' }) {
   return (
-    <button type="button" className="media-card media-card--row media-card--row-start" onClick={onOpen} aria-label={`Стаття: ${title}. ${tag}, ${read}`}>
+    <button type="button" className="media-card media-card--row media-card--row-start" onClick={onOpen}>
       <Photo tone={tone} className="photo--104" />
       <span className="media-card__text">
+        <span className="visually-hidden">Стаття: </span>
         <Badge tone={tagTone}>{tag}</Badge>
         <span className="media-card__title media-card__title--h3">{title}</span>
         <span className="media-card__meta">

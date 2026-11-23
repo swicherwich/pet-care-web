@@ -28,7 +28,7 @@ export function useAppNav() {
     [],
   );
 
-  const go = useCallback((to: string, kind: NavKind = 'push') => run(() => navigate(to), kind), [run, navigate]);
+  const go = useCallback((to: string, kind: NavKind = 'push', state?: unknown) => run(() => navigate(to, { state }), kind), [run, navigate]);
 
   /** Назад по історії; якщо історії немає (прямий вхід за посиланням), іде на запасний маршрут */
   const back = useCallback(
@@ -47,13 +47,13 @@ interface AppLinkProps extends LinkProps {
   kind?: NavKind;
 }
 
-export function AppLink({ to, kind = 'push', onClick, ...rest }: AppLinkProps) {
+export function AppLink({ to, kind = 'push', onClick, state, ...rest }: AppLinkProps) {
   const { go } = useAppNav();
   const handle = (e: MouseEvent<HTMLAnchorElement>) => {
     onClick?.(e);
     if (e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
     e.preventDefault();
-    go(typeof to === 'string' ? to : String(to), kind);
+    go(typeof to === 'string' ? to : String(to), kind, state);
   };
-  return <Link to={to} onClick={handle} {...rest} />;
+  return <Link to={to} state={state} onClick={handle} {...rest} />;
 }
